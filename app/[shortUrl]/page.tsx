@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
 import clientPromise from "@/lib/mongodb";
-import { NextRequest, NextResponse } from "next/server";
 
 export default async function Page({
   params,

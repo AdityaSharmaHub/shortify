@@ -17,7 +17,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
 
     // Insert the URL data into the collection
-    const result = await collection.insertOne({
+    await collection.insertOne({
         longUrl: body.longUrl,
         alias: body.alias
     });
