@@ -47,23 +47,33 @@ export default function URLShortener() {
       redirect: "follow" as RequestRedirect,
     };
 
-    fetch("/api/generate", requestOptions)
-      .then(async(response) => {
-        const result = await response.json() as { message: string; success: boolean; error: boolean };
-        if(result.success == false || result.error == true) {
-          setError(result.message);
-          toast.error(result.message);
-        }
-        else {
-          setError("")
-          setShortUrl(`${process.env.NEXT_PUBLIC_HOST}/${alias}`)
-          setLongUrl("")
-          setAlias("")
-          console.log(result);
-          toast.success(result.message);
-        }
-      })
-      .catch((error) => console.error(error));
+
+    toast.promise(
+      fetch("/api/generate", requestOptions)
+        .then(async (response) => {
+          const result = await response.json() as { message: string; success: boolean; error: boolean };
+          if (result.success === false || result.error === true) {
+            setError(result.message);
+            throw new Error(result.message); // Rejects the promise to trigger the error toast
+          } else {
+            setError("");
+            setShortUrl(`${process.env.NEXT_PUBLIC_HOST}/${alias}`);
+            setLongUrl("");
+            setAlias("");
+            console.log(result);
+            return result.message; // Resolves the promise to trigger the success toast
+          }
+        })
+        .catch((error) => {
+          // console.error(error);
+          throw error; // Ensures any errors trigger the error toast
+        }),
+      {
+        loading: "Processing...",
+        success: <b>URL shortened successfully!</b>,
+        error: <b>URL already exists.</b>,
+      }
+    );
   };
 
   const copyToClipboard = () => {

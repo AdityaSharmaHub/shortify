@@ -10,7 +10,7 @@ export default async function Page({
   const shortUrl = (await params).shortUrl;
 
   const client = await clientPromise;
-  const db = client.db("linkly");
+  const db = client.db("shortify");
   const collection = db.collection("url");
 
   const doc = await collection.findOne({

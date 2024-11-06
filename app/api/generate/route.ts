@@ -2,10 +2,10 @@ import clientPromise from "@/lib/mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
-    
+
     const body = await request.json() as { longUrl: string; alias: string };
     const client = await clientPromise;
-    const db = client.db("linkly");
+    const db = client.db("shortify");
     const collection = db.collection("url");
 
     // Check if the short URL is already present or not
