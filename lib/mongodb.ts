@@ -6,7 +6,7 @@ const options: MongoClientOptions = {};
 let client: MongoClient;
 let clientPromise: Promise<MongoClient>;
 
-// Extend the globalThis object to include a custom type for _mongoClientPromise
+// Extend globalThis to allow dynamic properties
 declare global {
   var _mongoClientPromise: Promise<MongoClient> | undefined;
 }
