@@ -1,7 +1,7 @@
 "use client";
 
 import toast, { Toaster } from 'react-hot-toast';
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,14 +21,36 @@ export default function URLShortener() {
   const [alias, setAlias] = useState("");
   const [shortUrl, setShortUrl] = useState("");
   const [error, setError] = useState("");
+
+  const longUrlRef = useRef<HTMLInputElement>(null);
+  const aliasRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (error === "Please enter a URL to shorten" && longUrlRef.current) {
+      longUrlRef.current.focus();
+    }
+    if (error === "Please enter your custom URL" && aliasRef.current) {
+      aliasRef.current.focus();
+    }
+  }, [error]);
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
     if (!longUrl) {
+      setError("");
+      setShortUrl("");
       toast.error("Please enter a URL to shorten")
       setError("Please enter a URL to shorten");
+      return;
+    }
+
+    if (!alias) {
+      setError("");
+      setShortUrl("");
+      toast.error("Please enter your custom URL")
+      setError("Please enter your custom URL");
       return;
     }
 
@@ -93,8 +115,7 @@ export default function URLShortener() {
     <div className="min-h-screen bg-[#F8F8F8] flex items-center justify-center p-4">
       <Card className="w-full max-w-lg border-black/20">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center flex items-center justify-center text-gray-900">
-            <Scissors className="mr-2" />
+          <CardTitle className="text-2xl font-bold text-center text-gray-900">
             URL Shortener
           </CardTitle>
           <CardDescription className="text-center text-gray-600 font-serif">
@@ -108,7 +129,7 @@ export default function URLShortener() {
                 htmlFor="longUrl"
                 className="text-sm font-medium text-gray-700"
               >
-                Long URL
+                Long URL *
               </Label>
               <div className="flex">
                 <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500">
@@ -120,6 +141,7 @@ export default function URLShortener() {
                   placeholder="https://example.com/very/long/url"
                   value={longUrl}
                   onChange={(e) => setLongUrl(e.target.value)}
+                  ref={longUrlRef}
                   className="rounded-l-none focus:ring-gray-500 focus:border-gray-500"
                 />
               </div>
@@ -129,7 +151,7 @@ export default function URLShortener() {
                 htmlFor="alias"
                 className="text-sm font-medium text-gray-700"
               >
-                Custom Alias
+                Custom Alias *
               </Label>
               <Input
                 id="alias"
@@ -137,6 +159,7 @@ export default function URLShortener() {
                 placeholder="my-custom-url"
                 value={alias}
                 onChange={(e) => setAlias(e.target.value)}
+                ref={aliasRef}
                 className="focus:ring-gray-500 focus:border-gray-500"
               />
             </div>

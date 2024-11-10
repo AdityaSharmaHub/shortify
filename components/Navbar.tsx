@@ -1,9 +1,13 @@
+import { Scissors } from "lucide-react"
 import Link from "next/link"
 
 export default function Navbar() {
     return (
         <nav className="absolute top-0 flex items-center justify-center py-12 w-full">
-            <Link href={"/"} className="text-3xl font-extrabold">Shortify</Link>
+            <Link href={"/"} className="flex items-center gap-2 text-3xl font-extrabold">
+            <Scissors />
+            Shortify
+            </Link>
             {/* <div className="flex items-center gap-12">
                 <Link href={"/"} className="text-sm text-neutral-400 hover:text-white">Home</Link>
                 <Link href={"/about"} className="text-sm text-neutral-400 hover:text-white">About</Link>
