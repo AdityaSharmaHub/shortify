@@ -53,6 +53,7 @@ export default function URLShortener() {
         .then(async (response) => {
           const result = await response.json() as { message: string; success: boolean; error: boolean };
           if (result.success === false || result.error === true) {
+            setShortUrl("");
             setError(result.message);
             throw new Error(result.message); // Rejects the promise to trigger the error toast
           } else {
@@ -65,7 +66,6 @@ export default function URLShortener() {
           }
         })
         .catch((error) => {
-          // console.error(error);
           throw error; // Ensures any errors trigger the error toast
         }),
       {
@@ -80,7 +80,6 @@ export default function URLShortener() {
     navigator.clipboard
       .writeText(shortUrl)
       .then(() => {
-        // You could show a toast notification here
         toast("URL copied to clipboard");
         console.log("URL copied to clipboard");
       })
@@ -153,7 +152,7 @@ export default function URLShortener() {
           </form>
         </CardContent>
         {error && (
-          <Alert variant="destructive" className="mt-4">
+          <Alert variant="destructive" className="mt-4 bg-red-50">
             <AlertTitle className="font-semibold">Error</AlertTitle>
             <AlertDescription>{error}</AlertDescription>
           </Alert>
@@ -163,12 +162,12 @@ export default function URLShortener() {
             <div className="text-sm font-medium text-gray-600">
               Your shortened URL:
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex gap-2 items-center space-x-2">
               <a
                 href={shortUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-900 hover:underline flex items-center font-medium"
+                className="text-blue-600 hover:underline flex items-center font-medium"
               >
                 {shortUrl}
               </a>
