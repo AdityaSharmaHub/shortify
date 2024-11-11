@@ -1,19 +1,42 @@
-import { Scissors } from "lucide-react"
-import Link from "next/link"
+"use client";
+
+import { Scissors } from "lucide-react";
+import Link from "next/link";
+import { ThemeToggleButton } from "./ui/theme-toggle-button";
 
 export default function Navbar() {
-    return (
-        <nav className="absolute top-0 flex items-center justify-center py-12 w-full">
-            <Link href={"/"} className="flex items-center gap-2 text-3xl font-extrabold">
-            <Scissors />
-            Shortify
-            </Link>
-            {/* <div className="flex items-center gap-12">
-                <Link href={"/"} className="text-sm text-neutral-400 hover:text-white">Home</Link>
-                <Link href={"/about"} className="text-sm text-neutral-400 hover:text-white">About</Link>
-                <Link href={"/contact"} className="text-sm text-neutral-400 hover:text-white">Contact</Link>
-                <Link href={"/github"} className="text-sm text-neutral-400 hover:text-white">GitHub</Link>
-            </div> */}
-        </nav>
-    )
+
+  return (
+    <nav className="absolute top-0 flex items-center justify-between p-4 md:px-12 w-full bg-background">
+      <Link
+        href={"/"}
+        className="flex items-center gap-2 text-2xl font-extrabold"
+      >
+        <Scissors /> Shortify
+      </Link>
+      <div className="flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-8">
+          <Link href={"/theme"} className="text-sm hover:text-muted-foreground">
+            Theme
+          </Link>
+          <Link
+            href={"https://developeraditya.netlify.app/"}
+            target="_blank"
+            className="text-sm hover:text-muted-foreground"
+          >
+            Contact
+          </Link>
+          <Link
+            href={"https://github.com/AdityaSharmaHub/shortify"}
+            target="_blank"
+            className="text-sm hover:text-muted-foreground"
+          >
+            GitHub
+          </Link>
+        </div>
+
+        <ThemeToggleButton />
+      </div>
+    </nav>
+  );
 }

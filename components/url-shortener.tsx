@@ -93,7 +93,7 @@ export default function URLShortener() {
       {
         loading: "Processing...",
         success: <b>URL shortened successfully!</b>,
-        error: <b>URL already exists.</b>,
+        error: <b>Could not shorten URL. Please try again.</b>,
       }
     );
   };
@@ -102,7 +102,7 @@ export default function URLShortener() {
     navigator.clipboard
       .writeText(shortUrl)
       .then(() => {
-        toast("URL copied to clipboard");
+        toast.success("URL copied to clipboard");
         console.log("URL copied to clipboard");
       })
       .catch((err) => {
@@ -112,13 +112,13 @@ export default function URLShortener() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F8F8] flex items-center justify-center p-4">
-      <Card className="w-full max-w-lg border-black/20">
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <Card className="w-full max-w-lg">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center text-gray-900">
+          <CardTitle className="text-2xl font-bold text-center">
             URL Shortener
           </CardTitle>
-          <CardDescription className="text-center text-gray-600 font-serif">
+          <CardDescription className="text-center font-serif">
             Trim your links, expand your reach
           </CardDescription>
         </CardHeader>
@@ -127,12 +127,12 @@ export default function URLShortener() {
             <div className="space-y-2">
               <Label
                 htmlFor="longUrl"
-                className="text-sm font-medium text-gray-700"
+                className="text-sm font-medium"
               >
                 Long URL *
               </Label>
               <div className="flex">
-                <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500">
+                <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-primary bg-primary text-primary-foreground">
                   <Link2 className="h-5 w-5" />
                 </span>
                 <Input
@@ -142,14 +142,14 @@ export default function URLShortener() {
                   value={longUrl}
                   onChange={(e) => setLongUrl(e.target.value)}
                   ref={longUrlRef}
-                  className="rounded-l-none focus:ring-gray-500 focus:border-gray-500"
+                  className="rounded-l-none"
                 />
               </div>
             </div>
             <div className="space-y-2">
               <Label
                 htmlFor="alias"
-                className="text-sm font-medium text-gray-700"
+                className="text-sm font-medium"
               >
                 Custom Alias *
               </Label>
@@ -160,12 +160,12 @@ export default function URLShortener() {
                 value={alias}
                 onChange={(e) => setAlias(e.target.value)}
                 ref={aliasRef}
-                className="focus:ring-gray-500 focus:border-gray-500"
+                className=""
               />
             </div>
             <Button
               type="submit"
-              className="w-full bg-gray-900 hover:bg-gray-800 text-white"
+              className="w-full"
             >
               Generate Short URL
             </Button>
@@ -175,14 +175,14 @@ export default function URLShortener() {
           </form>
         </CardContent>
         {error && (
-          <Alert variant="destructive" className="mt-4 bg-red-50">
+          <Alert variant="destructive" className="mt-4 bg-destructive/10 rounded-tr-none rounded-tl-none">
             <AlertTitle className="font-semibold">Error</AlertTitle>
             <AlertDescription>{error}</AlertDescription>
           </Alert>
         )}
         {shortUrl && (
           <CardFooter className="flex flex-col items-center space-y-2">
-            <div className="text-sm font-medium text-gray-600">
+            <div className="text-sm font-medium text-secondary-foreground">
               Your shortened URL:
             </div>
             <div className="flex gap-2 items-center space-x-2">
@@ -190,7 +190,7 @@ export default function URLShortener() {
                 href={shortUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:underline flex items-center font-medium"
+                className="text-blue-500 hover:underline flex items-center font-medium"
               >
                 {shortUrl}
               </a>
@@ -198,7 +198,6 @@ export default function URLShortener() {
                 variant="outline"
                 size="icon"
                 onClick={copyToClipboard}
-                className="border-gray-300 hover:bg-gray-100"
               >
                 <Copy className="h-2 w-2" />
               </Button>
