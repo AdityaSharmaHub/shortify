@@ -93,7 +93,7 @@ export default function URLShortener() {
       {
         loading: "Processing...",
         success: <b>URL shortened successfully!</b>,
-        error: <b>Could not shorten URL. Please try again.</b>,
+        error: <b>URL already exists.</b>,
       }
     );
   };
@@ -110,6 +110,10 @@ export default function URLShortener() {
         console.error("Failed to copy URL: ", err);
       });
   };
+
+  const handleShortAnotherUrl = () => {
+    setShortUrl("");
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
@@ -169,13 +173,24 @@ export default function URLShortener() {
             >
               Generate Short URL
             </Button>
+            {
+              shortUrl &&
+              <Button
+                type="submit"
+                className="w-full"
+                variant="outline"
+                onClick={handleShortAnotherUrl}
+                >
+                Shorten another URL
+              </Button>
+            }
             <Toaster 
               position="top-center"
             />
           </form>
         </CardContent>
         {error && (
-          <Alert variant="destructive" className="mt-4 bg-destructive/10 rounded-tr-none rounded-tl-none">
+          <Alert variant="destructive" className="mt-4 bg-destructive/10 dark:bg-destructive/20 rounded-tr-none rounded-tl-none">
             <AlertTitle className="font-semibold">Error</AlertTitle>
             <AlertDescription>{error}</AlertDescription>
           </Alert>
@@ -185,23 +200,23 @@ export default function URLShortener() {
             <div className="text-sm font-medium text-secondary-foreground">
               Your shortened URL:
             </div>
-            <div className="flex gap-2 items-center space-x-2">
-              <a
-                href={shortUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 hover:underline flex items-center font-medium"
-              >
-                {shortUrl}
-              </a>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={copyToClipboard}
-              >
-                <Copy className="h-2 w-2" />
-              </Button>
-            </div>
+            <div className="flex gap-6 items-center space-x-2">
+                <a
+                  href={shortUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:underline flex items-center font-medium"
+                  >
+                  {shortUrl}
+                </a>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={copyToClipboard}
+                  >
+                  <Copy className="h-2 w-2" />
+                </Button>
+              </div>
           </CardFooter>
         )}
       </Card>
