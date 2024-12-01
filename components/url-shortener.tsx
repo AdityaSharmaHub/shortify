@@ -117,7 +117,7 @@ export default function URLShortener() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-      <Card className="w-full max-w-lg">
+      <Card className="w-full max-w-lg shadow-none">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center">
             URL Shortener
@@ -162,14 +162,14 @@ export default function URLShortener() {
                 type="text"
                 placeholder="my-custom-url"
                 value={alias}
-                onChange={(e) => setAlias(e.target.value)}
+                onChange={(e) => setAlias(e.target.value.replace(/\s+/g, '-').toLowerCase())}
                 ref={aliasRef}
                 className=""
               />
             </div>
             <Button
               type="submit"
-              className="w-full"
+              className="w-full active:scale-95 transition ease-linear"
             >
               Generate Short URL
             </Button>
